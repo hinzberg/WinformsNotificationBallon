@@ -1,6 +1,5 @@
 using Hinzberg.BallonNotification;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -8,13 +7,13 @@ namespace Ballonbenachrichtigung
 {
     public partial class MainForm : Form
     {
-        private const int _notificationBallonHeight = 100;
+        private const int _notificationViewReservedHeight = 105;
         NotificationRepository _notificationRepository;
 
         public MainForm()
         {
             InitializeComponent();
-            _notificationRepository = new NotificationRepository(_notificationBallonHeight);
+            _notificationRepository = new NotificationRepository(_notificationViewReservedHeight);
         }
 
         private void OnShowNotificationButtonClick(object sender, EventArgs e)
@@ -24,50 +23,47 @@ namespace Ballonbenachrichtigung
             else
                 _notificationRepository.Behavior = NotificationListBehavior.AddAtBottom;
 
-            NotificationBallon notification = _notificationRepository.GetNotification();
-            if (notification == null) 
+            NotificationView notification = _notificationRepository.GetNotification();
+            if (notification == null)
                 return;
 
             notification.NotificationIcon = this.Icon;
+            notification.ShowDurationTime = 3000;
 
-            notification.ShowDurationTime = 1000;
-            
             notification.AutoRemove = this.autoRemoveCheckBox.Checked;
-  
-            notification.BorderColor = Color.Black;
+
+            // Alternativ Icon
+            if (userIconCheckBox.Checked)
+                notification.NotificationIcon = Properties.Resources.kuser;
+
+            // Hide Icon
+            if (hideIconCheckBox.Checked)
+                notification.NotificationIcon = null;
+
+            if (redBorderCheckBox.Checked)
+                notification.BorderColor = Color.Red;
 
             notification.ContentText = "Lorem ipsum dolor sit amet, consectetur \nadipisicing elit, sed do \neiusmod tempor.";
             notification.HeadlineText = DateTime.Now.ToLongTimeString() + " Important Message";
-            notification.Tag = (string)"http://www.denic.de";
+            notification.AssociatedObject = @"http://www.denic.de";
 
-            notification.OnNotificationClicked += OnNotificationClicked;
-            notification.OnNotificationClosed += OnNotificationClosed;
+            notification.NotificationClicked += OnNotificationClicked;
+            notification.NotificationClosed += OnNotificationClosed;
 
             _notificationRepository.Add(notification);
             notification.ShowNotification();
         }
 
-        void OnNotificationClicked(object sender)
+        void OnNotificationClicked(NotificationView notification)
         {
-            NotificationBallon notification = (NotificationBallon)sender;
-
-            if ((string)notification.Tag == "")
-                return;
-
-            try
-            {
-                Process process = new Process();
-                Uri url = new Uri((string)notification.Tag);
-                process.StartInfo.FileName = url.ToString();
-                process.StartInfo.UseShellExecute = true;
-                process.Start();
-            }
-            catch (UriFormatException) { }
+            var obj = notification.AssociatedObject;
+            // Remove on Click, optional
+            notification.HideNotification();
         }
 
-        void OnNotificationClosed(object sender)
+        void OnNotificationClosed(NotificationView notification)
         {
-            _notificationRepository.Remove((NotificationBallon)sender);
+            _notificationRepository.Remove(notification);            
         }
     }
 }

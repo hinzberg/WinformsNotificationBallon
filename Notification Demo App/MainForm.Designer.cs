@@ -32,6 +32,9 @@
             this.autoRemoveCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.behaviourCheckBox = new System.Windows.Forms.CheckBox();
+            this.userIconCheckBox = new System.Windows.Forms.CheckBox();
+            this.hideIconCheckBox = new System.Windows.Forms.CheckBox();
+            this.redBorderCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -64,9 +67,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 82);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 20);
+            this.label1.Size = new System.Drawing.Size(141, 20);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Settings";
+            this.label1.Text = "Sample Settings";
             // 
             // behaviourCheckBox
             // 
@@ -81,15 +84,52 @@
             this.behaviourCheckBox.Text = "Add new Notifications on top";
             this.behaviourCheckBox.UseVisualStyleBackColor = true;
             // 
+            // userIconCheckBox
+            // 
+            this.userIconCheckBox.AutoSize = true;
+            this.userIconCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userIconCheckBox.Location = new System.Drawing.Point(16, 157);
+            this.userIconCheckBox.Name = "userIconCheckBox";
+            this.userIconCheckBox.Size = new System.Drawing.Size(144, 20);
+            this.userIconCheckBox.TabIndex = 5;
+            this.userIconCheckBox.Text = "Use alternative Icon";
+            this.userIconCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // hideIconCheckBox
+            // 
+            this.hideIconCheckBox.AutoSize = true;
+            this.hideIconCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hideIconCheckBox.Location = new System.Drawing.Point(16, 183);
+            this.hideIconCheckBox.Name = "hideIconCheckBox";
+            this.hideIconCheckBox.Size = new System.Drawing.Size(83, 20);
+            this.hideIconCheckBox.TabIndex = 6;
+            this.hideIconCheckBox.Text = "Hide Icon";
+            this.hideIconCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // redBorderCheckBox
+            // 
+            this.redBorderCheckBox.AutoSize = true;
+            this.redBorderCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.redBorderCheckBox.Location = new System.Drawing.Point(16, 209);
+            this.redBorderCheckBox.Name = "redBorderCheckBox";
+            this.redBorderCheckBox.Size = new System.Drawing.Size(96, 20);
+            this.redBorderCheckBox.TabIndex = 7;
+            this.redBorderCheckBox.Text = "Red Border";
+            this.redBorderCheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(320, 381);
+            this.ClientSize = new System.Drawing.Size(320, 246);
+            this.Controls.Add(this.redBorderCheckBox);
+            this.Controls.Add(this.hideIconCheckBox);
+            this.Controls.Add(this.userIconCheckBox);
             this.Controls.Add(this.behaviourCheckBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.autoRemoveCheckBox);
             this.Controls.Add(this.button1);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Notification Sample";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,6 +141,9 @@
         private System.Windows.Forms.CheckBox autoRemoveCheckBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox behaviourCheckBox;
+        private System.Windows.Forms.CheckBox userIconCheckBox;
+        private System.Windows.Forms.CheckBox hideIconCheckBox;
+        private System.Windows.Forms.CheckBox redBorderCheckBox;
     }
 }
 

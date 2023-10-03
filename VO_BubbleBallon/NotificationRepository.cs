@@ -6,19 +6,21 @@ namespace Hinzberg.BallonNotification
 {
     public enum NotificationListBehavior { AddOnTop = 0, AddAtBottom = 1 };
     
-    public class NotificationRepository : List<NotificationBallon>
+    public class NotificationRepository : List<NotificationView>
     {
         private int _maxElements;
-        private int _notificationBallonHeight = 0;
+        private int _notificationViewReservedHeight = 0;
         private List<bool> _emptySlotsList = new List<bool>();
 
         public NotificationListBehavior Behavior { get; set; } = NotificationListBehavior.AddOnTop;
+        public int NotificationRowOffsetBottom { get; set; } = 5;
+        public int NotificationRowOffsetRight { get; set; } = 5;
 
-        public NotificationRepository(int offset)
+        public NotificationRepository(int notificationViewReservedHeight)
         {
-            _notificationBallonHeight = offset;
-            int screenheight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
-            int maxElements = screenheight / _notificationBallonHeight;
+            _notificationViewReservedHeight = notificationViewReservedHeight;
+            int screenheight = Screen.PrimaryScreen.WorkingArea.Height;
+            int maxElements = screenheight / _notificationViewReservedHeight;
 
             this._maxElements = maxElements;
 
@@ -26,13 +28,13 @@ namespace Hinzberg.BallonNotification
                 _emptySlotsList.Add(true);
         }
        
-        public NotificationBallon GetNotification()
+        public NotificationView GetNotification()
         {
             int freeSlotNumber = GetSlotNumber();
             if (freeSlotNumber < 0)
                 return null;
 
-            NotificationBallon notification = new NotificationBallon();
+            NotificationView notification = new NotificationView();
             notification.SlotNumber = freeSlotNumber;
             return notification;
         }
@@ -55,10 +57,10 @@ namespace Hinzberg.BallonNotification
             return -1;
         }
 
-        public new void Add(NotificationBallon notification)
+        public new void Add(NotificationView notification)
         {
-            int offset = _notificationBallonHeight * notification.SlotNumber;
-            notification.Location = new Point(Screen.PrimaryScreen.WorkingArea.Right - notification.Width - 5, Screen.PrimaryScreen.WorkingArea.Bottom - notification.Height - 5 - offset);
+            int offset = _notificationViewReservedHeight * notification.SlotNumber;
+            notification.Location = new Point(Screen.PrimaryScreen.WorkingArea.Right - notification.Width - NotificationRowOffsetRight, Screen.PrimaryScreen.WorkingArea.Bottom - notification.Height - NotificationRowOffsetBottom - offset);
 
             if (this.Behavior == NotificationListBehavior.AddOnTop)
                 AddOnTop(notification);
@@ -66,25 +68,25 @@ namespace Hinzberg.BallonNotification
                 AddWithMove(notification);
         }
         
-        private void AddOnTop(NotificationBallon notification)
+        private void AddOnTop(NotificationView notification)
         {
             // No empty slot at this time
             _emptySlotsList[notification.SlotNumber] = false;
             base.Add(notification);
         }
 
-        private void AddWithMove(NotificationBallon notification)
+        private void AddWithMove(NotificationView notification)
         {
             // Move all notifications upward
-            foreach (NotificationBallon notif in this)
-                notif.MoveUpNotification(_notificationBallonHeight);
+            foreach (NotificationView notif in this)
+                notif.MoveUpNotification(_notificationViewReservedHeight);
 
             // No empty slot at this time
             _emptySlotsList[notification.SlotNumber] = false;
             base.Add(notification);
         }
 
-        public new void Remove(NotificationBallon notification)
+        public new void Remove(NotificationView notification)
         {
             // Slot is empty now
             _emptySlotsList[notification.SlotNumber] = true;

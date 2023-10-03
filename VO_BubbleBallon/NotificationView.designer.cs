@@ -1,6 +1,6 @@
 ﻿namespace Hinzberg.BallonNotification
 {
-    partial class NotificationBallon
+    partial class NotificationView
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -37,7 +37,6 @@
             this.contentLabel.TabIndex = 1;
             this.contentLabel.Text = "Text";
             this.contentLabel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnNotificationClick);
-            this.contentLabel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnNotificationDoubleClick);
             // 
             // headlineLabel
             // 
@@ -49,7 +48,6 @@
             this.headlineLabel.TabIndex = 2;
             this.headlineLabel.Text = "Titel";
             this.headlineLabel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnNotificationClick);
-            this.headlineLabel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnNotificationDoubleClick);
             // 
             // XButton
             // 
@@ -78,7 +76,6 @@
             this.icon.Size = new System.Drawing.Size(32, 32);
             this.icon.TabIndex = 5;
             this.icon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnNotificationClick);
-            this.icon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnNotificationDoubleClick);
             // 
             // NotificationBallon
             // 
@@ -96,7 +93,6 @@
             this.ShowInTaskbar = false;
             this.Text = "Form2";
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnNotificationClick);
-            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnNotificationDoubleClick);
             this.ResumeLayout(false);
 
         }

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Hinzberg.BallonNotification
 {
-    public partial class NotificationBallon : Form
+    public partial class NotificationView : Form
     {
         #region << Win32 API >>
         [DllImport("user32.dll")]
@@ -29,28 +29,25 @@ namespace Hinzberg.BallonNotification
         public int ShowDurationTime { get; set; } = 500;             
         public int FadeOutDurationTime { get; set; } = 500;
 
-
         public Icon NotificationIcon { get; set; } = null;                 // Icon for Notification
         public DateTime SendTimeStamp { get; set; } = DateTime.Now;   // Zeitstempel
         public Font TextFont { get; set; }
         public bool HasThickBorder { get; set; } = false;                // Breiten Rand aktivieren
         public int SlotNumber { get; set; } = 0;
 
-        public delegate void RaiseEvent(object sender);
-        public event RaiseEvent OnNotificationClosed;
-        public event RaiseEvent OnNotificationClicked;
-        public event RaiseEvent OnNotificationDoubleClicked;
+        public delegate void RaiseEvent(NotificationView notification);
+        public event RaiseEvent NotificationClosed;
+        public event RaiseEvent NotificationClicked;
 
         private Timer _fadeInTimer;
         private Timer _showTimer;
         private Timer _fadeOutTimer;
 
-        private Timer _doubleClickTimer;
-
         public string HeadlineText { get { return this.headlineLabel.Text;  }  set { this.headlineLabel.Text = value; } }
         public string ContentText { get { return this.contentLabel.Text;  }  set { this.contentLabel.Text = value; } }
+        public object AssociatedObject { get; set; } = null;
 
-        public NotificationBallon()
+        public NotificationView()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.Manual;
@@ -59,7 +56,7 @@ namespace Hinzberg.BallonNotification
 
         #region Timer für weiches ein und Ausblenden
 
-        void OnFadeInTimerTick(object sender, EventArgs e)
+       private void OnFadeInTimerTick(object sender, EventArgs e)
         {
             if (Opacity >= 1.0)
             {
@@ -69,7 +66,7 @@ namespace Hinzberg.BallonNotification
             Opacity += 0.1;
         }
 
-        void OnShowTimerTick(object sender, EventArgs e)
+        private void OnShowTimerTick(object sender, EventArgs e)
         {
             this.Opacity = 1;
             _showTimer.Stop();
@@ -78,15 +75,13 @@ namespace Hinzberg.BallonNotification
                 _fadeOutTimer.Start();
         }
 
-        void OnFadeOutTimerTick(object sender, EventArgs e)
+        private void OnFadeOutTimerTick(object sender, EventArgs e)
         {
             if (Opacity == 0.0)
             {
                 _fadeOutTimer.Stop();
 
-                if (OnNotificationClosed != null)
-                    OnNotificationClosed(this);
-
+                this.NotificationClosed?.Invoke(this);
                 this.Close();
             }
             Opacity -= 0.1;
@@ -103,28 +98,14 @@ namespace Hinzberg.BallonNotification
 
         private void OnNotificationClick(object sender, MouseEventArgs e)
         {
-            _doubleClickTimer.Start();
-        }
-
-        private void OnNotificationDoubleClick(object sender, MouseEventArgs e)
-        {
-            _doubleClickTimer.Stop();
-            if (OnNotificationDoubleClicked != null)
-                OnNotificationDoubleClicked(this);
-        }
-
-        private void OnDoubleClickTimerTick(object sender, EventArgs e)
-        {
-            _doubleClickTimer.Stop();
-            if (OnNotificationClicked != null)
-                OnNotificationClicked(this);
+            this.NotificationClicked?.Invoke(this);
         }
 
         private void OnCloseButtonClick(object sender, EventArgs e)
         {
-            _doubleClickTimer.Stop();
-            _showTimer.Stop();
-            _fadeOutTimer.Start();
+            _fadeInTimer?.Stop();
+            _showTimer?.Stop();
+            _fadeOutTimer?.Start();
         }
 
         #region Paint Methods
@@ -187,10 +168,17 @@ namespace Hinzberg.BallonNotification
         /// <summary>
         /// Start fade timers, show notification
         /// </summary>
+
+        public void MoveUpNotification(int offset)
+        {
+            int newLocationY = this.Location.Y - offset;
+            SetWindowPos(this.Handle, HWND_TOPMOST, this.Location.X, newLocationY, this.Width, this.Height, SWP_NOACTIVATE);
+        }
+
         public void ShowNotification()
         {
             #region Without an icon there is more space for the text
-            
+
             if (NotificationIcon == null)
             {
                 icon.Visible = false;
@@ -243,26 +231,23 @@ namespace Hinzberg.BallonNotification
             _fadeOutTimer.Interval = FadeOutDurationTime / 10;
             _fadeOutTimer.Tick += new EventHandler(OnFadeOutTimerTick);
 
-            _doubleClickTimer = new Timer();
-            _doubleClickTimer.Interval = SystemInformation.DoubleClickTime;
-            _doubleClickTimer.Tick += new EventHandler(OnDoubleClickTimerTick);
-
             // Fade in or no fade in
             if (FadeInDurationTime > 0)
             {
                 this.Opacity = 0;
                 _fadeInTimer.Start();
-            }    
+            }
             else
             {
                 _showTimer.Start();
-            }                
+            }
         }
 
-        public void MoveUpNotification(int offset)
+        public void HideNotification()
         {
-            int newLocationY = this.Location.Y - offset;
-            SetWindowPos(this.Handle, HWND_TOPMOST, this.Location.X, newLocationY, this.Width, this.Height, SWP_NOACTIVATE);
+            _fadeInTimer?.Stop();
+            _showTimer?.Stop();
+            _fadeOutTimer?.Start();
         }
     }
 }
