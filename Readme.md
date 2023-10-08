@@ -10,6 +10,6 @@
 
 ![Screenshot](https://github.com/hinzberg/WinformsNotificationBallon/blob/master/Notification%20Demo%20App/Screenshot/notification_screenshot.jpg)
 
-### Histoty
+### History
 - 2023-10-08 Added Background Color Property
 - 2023-10-08 Added Border Style Property
