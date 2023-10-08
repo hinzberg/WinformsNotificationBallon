@@ -22,17 +22,22 @@ namespace Hinzberg.BallonNotification
         // https://thecave.myjabber.net/svn/ags/XMPP/agsxmpp.ui/trunk/roster/Tooltip.cs
         #endregion    
 
-        public Color BorderColor { get; set; } = Color.Silver;          // Border Color of the Notification
+        public enum NotificationBorderStyle { None, Thin, Thick }
+
+        public Color BorderColor { get; set; } = Color.DarkGray;          // Border Color of the Notification
+        public Color BackgroundColor { get; set; } = Color.White;   // Background Color of the Notification
+        public NotificationBorderStyle BorderStyle { get; set; } = NotificationBorderStyle.Thin;
+
         public bool AutoRemove { get; set; } = true;                       // Remove Notification automatically
 
         public int FadeInDurationTime { get; set; } = 500;
-        public int ShowDurationTime { get; set; } = 500;             
+        public int ShowDurationTime { get; set; } = 500;
         public int FadeOutDurationTime { get; set; } = 500;
 
         public Icon NotificationIcon { get; set; } = null;                 // Icon for Notification
         public DateTime SendTimeStamp { get; set; } = DateTime.Now;   // Zeitstempel
         public Font TextFont { get; set; }
-        public bool HasThickBorder { get; set; } = false;                // Breiten Rand aktivieren
+
         public int SlotNumber { get; set; } = 0;
 
         public delegate void RaiseEvent(NotificationView notification);
@@ -43,8 +48,8 @@ namespace Hinzberg.BallonNotification
         private Timer _showTimer;
         private Timer _fadeOutTimer;
 
-        public string HeadlineText { get { return this.headlineLabel.Text;  }  set { this.headlineLabel.Text = value; } }
-        public string ContentText { get { return this.contentLabel.Text;  }  set { this.contentLabel.Text = value; } }
+        public string HeadlineText { get { return this.headlineLabel.Text; } set { this.headlineLabel.Text = value; } }
+        public string ContentText { get { return this.contentLabel.Text; } set { this.contentLabel.Text = value; } }
         public object AssociatedObject { get; set; } = null;
 
         public NotificationView()
@@ -56,7 +61,7 @@ namespace Hinzberg.BallonNotification
 
         #region Timer für weiches ein und Ausblenden
 
-       private void OnFadeInTimerTick(object sender, EventArgs e)
+        private void OnFadeInTimerTick(object sender, EventArgs e)
         {
             if (Opacity >= 1.0)
             {
@@ -116,28 +121,36 @@ namespace Hinzberg.BallonNotification
 
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Rectangle b_rect;
+            Rectangle backgroundRect;
 
-            if (HasThickBorder == true)
+
+            int borderThickness = 0;
+            int offest = 2 * borderThickness + 2;
+            bool drawBorder = true;
+
+            switch (this.BorderStyle)
             {
-                b_rect = new Rectangle(ClientRectangle.X + 4, ClientRectangle.Y + 4, ClientRectangle.Width - 10, ClientRectangle.Height - 10);
+                case NotificationBorderStyle.None:
+                    drawBorder = false;
+                    break;
+
+                case NotificationBorderStyle.Thin:
+                    borderThickness = 1;
+                    offest = 2 * borderThickness + 2;
+                    break;
+
+                case NotificationBorderStyle.Thick:
+                    borderThickness = 2;
+                    offest = 2 * borderThickness + 2;
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                b_rect = new Rectangle(ClientRectangle.X + 1, ClientRectangle.Y + 1, ClientRectangle.Width - 4, ClientRectangle.Height - 4);
-            }
 
-            SolidBrush whiteBrush = new SolidBrush(Color.White);
-
-            if (BackgroundImage == null)
-            {
-                e.Graphics.FillRectangle(whiteBrush, b_rect);
+            backgroundRect = new Rectangle(ClientRectangle.X + borderThickness, ClientRectangle.Y + borderThickness, ClientRectangle.Width - offest, ClientRectangle.Height - offest);
+            e.Graphics.FillRectangle(new SolidBrush(this.BackgroundColor), backgroundRect);
+            if (drawBorder)
                 this.BackColor = BorderColor;
-            }
-            else
-            {
-                e.Graphics.DrawImage(BackgroundImage, new Point(0, 0));
-            }
         }
 
         /// <summary>
