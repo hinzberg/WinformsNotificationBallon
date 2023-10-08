@@ -32,15 +32,17 @@ namespace Ballonbenachrichtigung
 
             notification.AutoRemove = this.autoRemoveCheckBox.Checked;
 
-            // Alternativ Icon
-            if (userIconCheckBox.Checked)
-                notification.NotificationIcon = Properties.Resources.kuser;
-
-            // Hide Icon
+            // Icon
             if (hideIconCheckBox.Checked)
                 notification.NotificationIcon = null;
+            else if (userIconRadioButton.Checked)
+                notification.NotificationIcon = Properties.Resources.user;
+            else if (mailIconRadioButton.Checked)
+                notification.NotificationIcon = Properties.Resources.mail;
+            else if (alertIconRadioButton.Checked)
+                notification.NotificationIcon = Properties.Resources.alert;
 
-            if (redBorderCheckBox.Checked)
+            if (colorBorderCheckBox.Checked)
                 notification.BorderColor = Color.Red;
 
             notification.ContentText = "Lorem ipsum dolor sit amet, consectetur \nadipisicing elit, sed do \neiusmod tempor.";

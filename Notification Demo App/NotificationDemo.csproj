@@ -91,8 +91,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="kuser.ico" />
-    <None Include="Resources\kuser.ico" />
+    <None Include="Resources\user.ico" />
+    <None Include="Resources\mail.ico" />
+    <None Include="Resources\alert.ico" />
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -108,10 +109,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VO_BubbleBallon\Notification.csproj">
+    <ProjectReference Include="..\Notification\Notification.csproj">
       <Project>{cf55f0a8-6b4f-45ba-884c-7e5bca69ba5a}</Project>
       <Name>Notification</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Screenshot\notificazion_screenshot.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

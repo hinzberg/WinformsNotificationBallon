@@ -32,9 +32,11 @@
             this.autoRemoveCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.behaviourCheckBox = new System.Windows.Forms.CheckBox();
-            this.userIconCheckBox = new System.Windows.Forms.CheckBox();
             this.hideIconCheckBox = new System.Windows.Forms.CheckBox();
-            this.redBorderCheckBox = new System.Windows.Forms.CheckBox();
+            this.colorBorderCheckBox = new System.Windows.Forms.CheckBox();
+            this.userIconRadioButton = new System.Windows.Forms.RadioButton();
+            this.mailIconRadioButton = new System.Windows.Forms.RadioButton();
+            this.alertIconRadioButton = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // button1
@@ -84,17 +86,6 @@
             this.behaviourCheckBox.Text = "Add new Notifications on top";
             this.behaviourCheckBox.UseVisualStyleBackColor = true;
             // 
-            // userIconCheckBox
-            // 
-            this.userIconCheckBox.AutoSize = true;
-            this.userIconCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userIconCheckBox.Location = new System.Drawing.Point(16, 157);
-            this.userIconCheckBox.Name = "userIconCheckBox";
-            this.userIconCheckBox.Size = new System.Drawing.Size(144, 20);
-            this.userIconCheckBox.TabIndex = 5;
-            this.userIconCheckBox.Text = "Use alternative Icon";
-            this.userIconCheckBox.UseVisualStyleBackColor = true;
-            // 
             // hideIconCheckBox
             // 
             this.hideIconCheckBox.AutoSize = true;
@@ -108,26 +99,70 @@
             // 
             // redBorderCheckBox
             // 
-            this.redBorderCheckBox.AutoSize = true;
-            this.redBorderCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.redBorderCheckBox.Location = new System.Drawing.Point(16, 209);
-            this.redBorderCheckBox.Name = "redBorderCheckBox";
-            this.redBorderCheckBox.Size = new System.Drawing.Size(96, 20);
-            this.redBorderCheckBox.TabIndex = 7;
-            this.redBorderCheckBox.Text = "Red Border";
-            this.redBorderCheckBox.UseVisualStyleBackColor = true;
+            this.colorBorderCheckBox.AutoSize = true;
+            this.colorBorderCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.colorBorderCheckBox.Location = new System.Drawing.Point(16, 157);
+            this.colorBorderCheckBox.Name = "redBorderCheckBox";
+            this.colorBorderCheckBox.Size = new System.Drawing.Size(102, 20);
+            this.colorBorderCheckBox.TabIndex = 7;
+            this.colorBorderCheckBox.Text = "Color Border";
+            this.colorBorderCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // userIconRadioButton
+            // 
+            this.userIconRadioButton.AutoSize = true;
+            this.userIconRadioButton.Checked = true;
+            this.userIconRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userIconRadioButton.Location = new System.Drawing.Point(16, 209);
+            this.userIconRadioButton.Name = "userIconRadioButton";
+            this.userIconRadioButton.Size = new System.Drawing.Size(89, 20);
+            this.userIconRadioButton.TabIndex = 8;
+            this.userIconRadioButton.TabStop = true;
+            this.userIconRadioButton.Text = "Icon - User";
+            this.userIconRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // mailIconRadioButton
+            // 
+            this.mailIconRadioButton.AutoSize = true;
+            this.mailIconRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mailIconRadioButton.Location = new System.Drawing.Point(16, 235);
+            this.mailIconRadioButton.Name = "mailIconRadioButton";
+            this.mailIconRadioButton.Size = new System.Drawing.Size(85, 20);
+            this.mailIconRadioButton.TabIndex = 9;
+            this.mailIconRadioButton.TabStop = true;
+            this.mailIconRadioButton.Text = "Icon - Mail";
+            this.mailIconRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // alertIconRadioButton
+            // 
+            this.alertIconRadioButton.AutoSize = true;
+            this.alertIconRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.alertIconRadioButton.Location = new System.Drawing.Point(16, 261);
+            this.alertIconRadioButton.Name = "alertIconRadioButton";
+            this.alertIconRadioButton.Size = new System.Drawing.Size(87, 20);
+            this.alertIconRadioButton.TabIndex = 10;
+            this.alertIconRadioButton.TabStop = true;
+            this.alertIconRadioButton.Text = "Icon - Alert";
+            this.alertIconRadioButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(320, 246);
-            this.Controls.Add(this.redBorderCheckBox);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(322, 294);
+            this.Controls.Add(this.alertIconRadioButton);
+            this.Controls.Add(this.mailIconRadioButton);
+            this.Controls.Add(this.userIconRadioButton);
+            this.Controls.Add(this.colorBorderCheckBox);
             this.Controls.Add(this.hideIconCheckBox);
-            this.Controls.Add(this.userIconCheckBox);
             this.Controls.Add(this.behaviourCheckBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.autoRemoveCheckBox);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Notification Sample";
             this.ResumeLayout(false);
@@ -141,9 +176,11 @@
         private System.Windows.Forms.CheckBox autoRemoveCheckBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox behaviourCheckBox;
-        private System.Windows.Forms.CheckBox userIconCheckBox;
         private System.Windows.Forms.CheckBox hideIconCheckBox;
-        private System.Windows.Forms.CheckBox redBorderCheckBox;
+        private System.Windows.Forms.CheckBox colorBorderCheckBox;
+        private System.Windows.Forms.RadioButton userIconRadioButton;
+        private System.Windows.Forms.RadioButton mailIconRadioButton;
+        private System.Windows.Forms.RadioButton alertIconRadioButton;
     }
 }
 
